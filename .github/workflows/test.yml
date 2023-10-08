@@ -14,9 +14,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Print Mongo URI
-        run: echo "Mongo URI is ${{ env.MONGO_URI }}"
+        run: echo "Mongo URI is ${{ vars.MONGO_URI }}"
       
       - name: Print Mount Path
-        run: echo "Mount Path is ${{ env.MOUNT_PATH }}"
+        run: echo "Mount Path is ${{ vars.MOUNT_PATH }}"
         
       # ... rest of your workflow steps
