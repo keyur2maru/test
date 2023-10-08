@@ -1,0 +1,22 @@
+name: Example Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  example-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Print Mongo URI
+        run: echo "Mongo URI is ${{ env.MONGO_URI }}"
+      
+      - name: Print Mount Path
+        run: echo "Mount Path is ${{ env.MOUNT_PATH }}"
+        
+      # ... rest of your workflow steps
