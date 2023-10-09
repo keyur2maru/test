@@ -49,7 +49,7 @@ jobs:
         run: |
           docker build -f Dockerfile .
           echo ${{ vars.SERVICE_NAME }}-${{ github.sha }}:${{ env.VERSION }}
-          docker tag ${{ github.head_ref}}.${{ github.sha }}:${{ env.VERSION }}
+          docker tag ${{ vars.SERVICE_NAME }}-${{ github.sha }}:${{ env.VERSION }}
         
 
       
