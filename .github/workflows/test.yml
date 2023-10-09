@@ -48,17 +48,21 @@ jobs:
         run: echo "SHORT_SHA=$(echo ${{ github.sha }} | head -c 8)" >> $GITHUB_ENV
 
       - name: Validate Dockerfile
+        env: 
+          IMAGE: "${{ env.SERVICE_NAME }}-${{ env.SHORT_SHA }}:${{ env.VERSION }}"
         run: |
-          docker build -f Dockerfile -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}-${{ env.SHORT_SHA }}:${{ env.VERSION }}
-          echo gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}-${{ env.SHORT_SHA }}:${{ env.VERSION }}
+          docker build -f Dockerfile -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.IMAGE }}
+          echo gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.IMAGE }}
           
       - name: Configure Docker to use GCR
         run: |
           gcloud auth configure-docker gcr.io
   
       - name: Push Docker Image to GCR
+        env: 
+          IMAGE: "${{ env.SERVICE_NAME }}-${{ env.SHORT_SHA }}:${{ env.VERSION }}"
         run: |
-          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}-${{ env.SHORT_SHA }}:${{ env.VERSION }}
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.IMAGE }}
         
 
       
