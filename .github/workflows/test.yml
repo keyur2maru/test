@@ -14,8 +14,6 @@ env:
   DOCKER_IMAGE_TAG: ${{ vars.DOCKER_IMAGE_TAG }}
   IMAGE_UPDATE_POLICY: ${{ vars.IMAGE_UPDATE_POLICY }}
   VERSION: 0.0.1
-  SHA: ${{ github.sha::6 }}
-  IMAGE: ${{ vars.SERVICE_NAME }}-${{env.SHA}}:${{ env.VERSION }}
 
 jobs:
   example-job:
@@ -46,10 +44,13 @@ jobs:
         run: |
           gcloud components install gke-gcloud-auth-plugin
 
+      - name: Extract branch name
+        run: echo "SHORT_SHA=$(echo ${{ github.sha }} | head -c 8)" >> $GITHUB_ENV
+
       - name: Validate Dockerfile
         run: |
-          docker build -f Dockerfile -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ IMAGE }} .
-          echo gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ IMAGE }}
+          docker build -f Dockerfile -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}-${{ env.SHORT_SHA }}:${{ env.VERSION }}
+          echo gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}-${{ env.SHORT_SHA }}:${{ env.VERSION }}
           
       - name: Configure Docker to use GCR
         run: |
@@ -57,7 +58,7 @@ jobs:
   
       - name: Push Docker Image to GCR
         run: |
-          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.IMAGE }}
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}-${{ env.SHORT_SHA }}:${{ env.VERSION }}
         
 
       
