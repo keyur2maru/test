@@ -70,7 +70,7 @@ jobs:
         run: |
           DIGEST=$(gcloud container images list-tags gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}-${{ env.SHORT_SHA }})
           echo $DIGEST
-          DIGEST2=$(gcloud container images list-tags gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}-${{ env.SHORT_SHA }}) --filter="tags=0.0.1" --format='get(digest)')
+          DIGEST2=$(gcloud container images list-tags gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}-${{ env.SHORT_SHA }}) --filter="tags=0.0.1" --format='get(digest)'
           echo $DIGEST2
           echo "::set-output name=digest::$DIGEST2"
   
