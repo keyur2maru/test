@@ -13,7 +13,7 @@ env:
   SERVICE_REPLICAS: ${{ vars.SERVICE_REPLICAS }}
   DOCKER_IMAGE_TAG: ${{ vars.DOCKER_IMAGE_TAG }}
   IMAGE_UPDATE_POLICY: ${{ vars.IMAGE_UPDATE_POLICY }}
-
+  VERSION: 0.0.1
 jobs:
   example-job:
     runs-on: ubuntu-latest
@@ -44,8 +44,6 @@ jobs:
           gcloud components install gke-gcloud-auth-plugin
 
       - name: Validate Dockerfile
-        env:
-          VERSION: 0.0.1
         run: |
           docker build -f Dockerfile -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ vars.SERVICE_NAME }}-${{ github.sha }}:${{ env.VERSION }} .
           echo gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ vars.SERVICE_NAME }}-${{ github.sha }}:${{ env.VERSION }}
