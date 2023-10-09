@@ -55,8 +55,10 @@ jobs:
           gcloud auth configure-docker gcr.io
   
       - name: Push Docker Image to GCR
+        env: 
+          IMAGE: ${{ vars.SERVICE_NAME }}-${{ github.sha }}:${{ env.VERSION }}
         run: |
-          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ vars.SERVICE_NAME }}-${{ github.sha }}:${{ env.VERSION }}
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.IMAGE }}
         
 
       
