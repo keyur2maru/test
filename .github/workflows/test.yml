@@ -51,7 +51,7 @@ jobs:
         env: 
           IMAGE: "${{ env.SERVICE_NAME }}-${{ env.SHORT_SHA }}:${{ env.VERSION }}"
         run: |
-          docker build -f Dockerfile -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.IMAGE }}
+          docker build -f Dockerfile -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.IMAGE }} .
           echo gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.IMAGE }}
           
       - name: Configure Docker to use GCR
