@@ -5,6 +5,15 @@ on:
     branches:
       - master
 
+env:
+  TOKEN: ${{ secrets.MY_PAT }}
+  SERVICE_NAME: ${{ vars.SERVICE_NAME }}
+  SERVICE_PORT: ${{ vars.SERVICE_PORT }}
+  SERVICE_TYPE: ${{ vars.SERVICE_TYPE }}
+  SERVICE_REPLICAS: ${{ vars.SERVICE_REPLICAS }}
+  DOCKER_IMAGE_TAG: ${{ vars.DOCKER_IMAGE_TAG }}
+  IMAGE_UPDATE_POLICY: ${{ vars.IMAGE_UPDATE_POLICY }}
+
 jobs:
   example-job:
     runs-on: ubuntu-latest
@@ -13,10 +22,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Print Mongo URI
-        run: echo "Mongo URI is ${{ vars.MONGO_URI }}"
-      
-      - name: Print Mount Path
-        run: echo "Mount Path is ${{ vars.MOUNT_PATH }}"
-        
-      # ... rest of your workflow steps
+      - name: Cache gcloud and gke-gcloud-auth-plugin setup
+        uses: actions/cache@v2
+        with:
+          path: /opt/hostedtoolcache/gcloud/
+          key: gcloud-setup-${{ runner.os }}-${{ hashFiles('.github/workflows/test.yml') }}
+          restore-keys: |
+            gcloud-setup-${{ runner.os }}-
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          project_id: "${{ secrets.GCP_PROJECT_ID }}"
+          credentials_json: "${{ secrets.GCP_SA_KEY }}"
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: Set up gke-gcloud-auth-plugin
+        run: |
+          gcloud components install gke-gcloud-auth-plugin
