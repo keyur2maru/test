@@ -68,7 +68,7 @@ jobs:
       - name: Get Image Digest
         id: get_digest
         run: |
-          DIGEST=$(gcloud container images list-tags gcr.io/***/user-management --filter="tags=0.0.1" --format='get(digest)')
+          DIGEST=$(gcloud container images list-tags gcr.io/${{ secrets.GCP_PROJECT_ID }}/user-management --filter="tags=0.0.1" --format='get(digest)')
           echo "::set-output name=digest::$DIGEST"
         env:
           CLOUDSDK_CORE_DISABLE_PROMPTS: 1
