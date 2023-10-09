@@ -48,7 +48,7 @@ jobs:
           VERSION: 0.0.1
         run: |
           docker build -f Dockerfile .
-          echo ${{ github.head_ref}}.${{ github.sha }}:${{ env.VERSION }}
+          echo ${{ vars.SERVICE_NAME }}-${{ github.sha }}:${{ env.VERSION }}
           docker tag ${{ github.head_ref}}.${{ github.sha }}:${{ env.VERSION }}
         
 
