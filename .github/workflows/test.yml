@@ -22,34 +22,41 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # - name: Cache gcloud and gke-gcloud-auth-plugin setup
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: /opt/hostedtoolcache/gcloud/
-      #     key: gcloud-setup-${{ runner.os }}-${{ hashFiles('.github/workflows/test.yml') }}
-      #     restore-keys: |
-      #       gcloud-setup-${{ runner.os }}-
+      - name: Cache gcloud and gke-gcloud-auth-plugin setup
+        uses: actions/cache@v2
+        with:
+          path: /opt/hostedtoolcache/gcloud/
+          key: gcloud-setup-${{ runner.os }}-${{ hashFiles('.github/workflows/test.yml') }}
+          restore-keys: |
+            gcloud-setup-${{ runner.os }}-
 
-      # - id: 'auth'
-      #   uses: 'google-github-actions/auth@v1'
-      #   with:
-      #     project_id: "${{ secrets.GCP_PROJECT_ID }}"
-      #     credentials_json: "${{ secrets.GCP_SA_KEY }}"
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          project_id: "${{ secrets.GCP_PROJECT_ID }}"
+          credentials_json: "${{ secrets.GCP_SA_KEY }}"
 
-      # - name: Set up Cloud SDK
-      #   uses: google-github-actions/setup-gcloud@v1
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
 
-      # - name: Set up gke-gcloud-auth-plugin
-      #   run: |
-      #     gcloud components install gke-gcloud-auth-plugin
+      - name: Set up gke-gcloud-auth-plugin
+        run: |
+          gcloud components install gke-gcloud-auth-plugin
 
       - name: Validate Dockerfile
         env:
           VERSION: 0.0.1
         run: |
-          docker build -f Dockerfile -t ${{ vars.SERVICE_NAME }}-${{ github.sha }}:${{ env.VERSION }} .
-          echo ${{ vars.SERVICE_NAME }}-${{ github.sha }}:${{ env.VERSION }}
+          docker build -f Dockerfile -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ vars.SERVICE_NAME }}-${{ github.sha }}:${{ env.VERSION }} .
+          echo gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ vars.SERVICE_NAME }}-${{ github.sha }}:${{ env.VERSION }}
           
+      - name: Configure Docker to use GCR
+        run: |
+          gcloud auth configure-docker gcr.io
+  
+      - name: Push Docker Image to GCR
+        run: |
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ vars.SERVICE_NAME }}-${{ github.sha }}:${{ env.VERSION }}
         
 
       
