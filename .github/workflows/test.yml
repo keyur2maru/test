@@ -42,15 +42,16 @@ jobs:
       - name: Set up gke-gcloud-auth-plugin
         run: |
           gcloud components install gke-gcloud-auth-plugin
-          
-  validate-docker:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
 
-    - name: List files (debugging step)
-      run: ls -al
+      - name: Validate Dockerfile
+        env:
+          VERSION: 0.0.1
+          DOCKER_IMAGE_TAGOS: ${{ github.head_ref}}.${{ github.sha }}:${{ env.VERSION }}
+        run: |
+          docker build -f Dockerfile .
+          echo $DOCKER_IMAGE_TAGOS
+          docker tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.DOCKER_IMAGE_TAGOS }} gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.DOCKER_IMAGE_TAGOS }}}
 
-    - name: Validate Dockerfile
-      run: docker build -f Dockerfile -t dummy-service:latest .
+        
+
+      
