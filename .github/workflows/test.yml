@@ -22,36 +22,34 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Cache gcloud and gke-gcloud-auth-plugin setup
-        uses: actions/cache@v2
-        with:
-          path: /opt/hostedtoolcache/gcloud/
-          key: gcloud-setup-${{ runner.os }}-${{ hashFiles('.github/workflows/test.yml') }}
-          restore-keys: |
-            gcloud-setup-${{ runner.os }}-
+      # - name: Cache gcloud and gke-gcloud-auth-plugin setup
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: /opt/hostedtoolcache/gcloud/
+      #     key: gcloud-setup-${{ runner.os }}-${{ hashFiles('.github/workflows/test.yml') }}
+      #     restore-keys: |
+      #       gcloud-setup-${{ runner.os }}-
 
-      - id: 'auth'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          project_id: "${{ secrets.GCP_PROJECT_ID }}"
-          credentials_json: "${{ secrets.GCP_SA_KEY }}"
+      # - id: 'auth'
+      #   uses: 'google-github-actions/auth@v1'
+      #   with:
+      #     project_id: "${{ secrets.GCP_PROJECT_ID }}"
+      #     credentials_json: "${{ secrets.GCP_SA_KEY }}"
 
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
+      # - name: Set up Cloud SDK
+      #   uses: google-github-actions/setup-gcloud@v1
 
-      - name: Set up gke-gcloud-auth-plugin
-        run: |
-          gcloud components install gke-gcloud-auth-plugin
+      # - name: Set up gke-gcloud-auth-plugin
+      #   run: |
+      #     gcloud components install gke-gcloud-auth-plugin
 
       - name: Validate Dockerfile
         env:
           VERSION: 0.0.1
-          DOCKER_IMAGE_TAGOS: ${{ github.head_ref}}.${{ github.sha }}:${{ env.VERSION }}
         run: |
           docker build -f Dockerfile .
-          echo $DOCKER_IMAGE_TAGOS
-          docker tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.DOCKER_IMAGE_TAGOS }} gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.DOCKER_IMAGE_TAGOS }}}
-
+          echo ${{ github.head_ref}}.${{ github.sha }}:${{ env.VERSION }}
+          docker tag ${{ github.head_ref}}.${{ github.sha }}:${{ env.VERSION }}
         
 
       
