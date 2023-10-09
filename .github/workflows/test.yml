@@ -43,7 +43,14 @@ jobs:
         run: |
           gcloud components install gke-gcloud-auth-plugin
           
-      - name: Get Docker Image Digest
-        id: get_digest
-        run: |
-          echo "::set-output name=digest::$(docker inspect --format='{{index .RepoDigests 0}}' gcr.io/${{ secrets.GCP_PROJECT_ID }}/$DOCKER_IMAGE_TAG)"
+  validate-docker:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: List files (debugging step)
+      run: ls -al
+
+    - name: Validate Dockerfile
+      run: docker build -f Dockerfile -t dummy-service:latest .
