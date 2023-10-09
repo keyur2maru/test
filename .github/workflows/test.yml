@@ -14,6 +14,8 @@ env:
   DOCKER_IMAGE_TAG: ${{ vars.DOCKER_IMAGE_TAG }}
   IMAGE_UPDATE_POLICY: ${{ vars.IMAGE_UPDATE_POLICY }}
   VERSION: 0.0.1
+  SHA: ${GITHUB_SHA::6}
+  IMAGE: "${{ vars.SERVICE_NAME }}-${{env.SHA}}:${{ env.VERSION }}"
 jobs:
   example-job:
     runs-on: ubuntu-latest
@@ -45,16 +47,14 @@ jobs:
 
       - name: Validate Dockerfile
         run: |
-          docker build -f Dockerfile -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ vars.SERVICE_NAME }}-${{ github.sha }}:${{ env.VERSION }} .
-          echo gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ vars.SERVICE_NAME }}-${{ github.sha }}:${{ env.VERSION }}
+          docker build -f Dockerfile -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ IMAGE }} .
+          echo gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ IMAGE }}
           
       - name: Configure Docker to use GCR
         run: |
           gcloud auth configure-docker gcr.io
   
       - name: Push Docker Image to GCR
-        env: 
-          IMAGE: "${{ vars.SERVICE_NAME }}-${{ github.sha }}:${{ env.VERSION }}"
         run: |
           docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.IMAGE }}
         
