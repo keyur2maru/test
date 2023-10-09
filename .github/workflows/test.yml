@@ -42,3 +42,8 @@ jobs:
       - name: Set up gke-gcloud-auth-plugin
         run: |
           gcloud components install gke-gcloud-auth-plugin
+          
+      - name: Get Docker Image Digest
+        id: get_digest
+        run: |
+          echo "::set-output name=digest::$(docker inspect --format='{{index .RepoDigests 0}}' gcr.io/${{ secrets.GCP_PROJECT_ID }}/$DOCKER_IMAGE_TAG)"
