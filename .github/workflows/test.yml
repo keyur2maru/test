@@ -47,9 +47,9 @@ jobs:
         env:
           VERSION: 0.0.1
         run: |
-          docker build -f Dockerfile .
+          docker build -f Dockerfile -t ${{ vars.SERVICE_NAME }}-${{ github.sha }}:${{ env.VERSION }} .
           echo ${{ vars.SERVICE_NAME }}-${{ github.sha }}:${{ env.VERSION }}
-          docker tag ${{ vars.SERVICE_NAME }}-${{ github.sha }}:${{ env.VERSION }}
+          
         
 
       
