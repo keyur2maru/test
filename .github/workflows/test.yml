@@ -14,8 +14,9 @@ env:
   DOCKER_IMAGE_TAG: ${{ vars.DOCKER_IMAGE_TAG }}
   IMAGE_UPDATE_POLICY: ${{ vars.IMAGE_UPDATE_POLICY }}
   VERSION: 0.0.1
-  SHA: ${GITHUB_SHA::6}
-  IMAGE: "${{ vars.SERVICE_NAME }}-${{env.SHA}}:${{ env.VERSION }}"
+  SHA: ${{ github.sha::6 }}
+  IMAGE: ${{ vars.SERVICE_NAME }}-${{env.SHA}}:${{ env.VERSION }}
+
 jobs:
   example-job:
     runs-on: ubuntu-latest
