@@ -1,0 +1,67 @@
+{{- define "sacheduler.deployment" -}}
+{{- $applicationName := .Values.global.applicationName -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.appName }}
+  name: {{ .Values.appName }}
+  namespace: {{ .Values.global.namespace }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+    spec:
+      containers:
+        - name: {{ .Values.appName }}
+          image: {{ .Values.image }}
+        {{- if .Values.imagePullPolicy }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+        {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.containerPort }}
+          {{- if .Values.volumeMounts }}
+          volumeMounts:
+{{ toYaml .Values.volumeMounts | nindent 12 }}
+          {{- end }}
+          {{- if .Values.envFrom }}
+          envFrom:
+{{ toYaml .Values.envFrom | nindent 12 }}
+          {{- end }}
+        {{- if .Values.env }}
+          env:
+          {{- range $env := .Values.env }} 
+            - name: {{ $env.name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ printf "%s-secrets" $applicationName }}
+                  key: {{ $env.name }}
+          {{- end }}
+        {{- end }}          
+          {{- if .Values.resources }}
+          resources:
+{{ toYaml .Values.resources | nindent 12 }}
+          {{- end }}
+      {{- if .Values.podAntiAffinity }}
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - {{ .Values.appName }}
+              topologyKey: kubernetes.io/hostname
+      {{- end }}
+      {{- if .Values.volumes }}
+      volumes:
+{{ toYaml .Values.volumes | nindent 8 }}
+      {{- end }}
+{{- end -}}

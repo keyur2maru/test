@@ -1,0 +1,16 @@
+apiVersion: v2
+name: rbac-management
+description: A Helm chart for Rbac Management Microservice
+version: 0.0.1
+appVersion: 0.0.1
+
+dependencies:
+  - name: configmap
+    version: "0.0.1"
+    repository: "file://../configmap"
+  - name: secrets
+    version: "0.0.1"
+    repository: "file://../secrets"
+  - name: mongodb
+    version: "0.0.1"
+    repository: "file://../mongodb"

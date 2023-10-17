@@ -1,0 +1,8 @@
+ConfigMapName: sacheduler-config-map
+data:
+  MONGO_URI: mongodb://mongodb:27017/
+  USER_SERVICE: user-management
+  USER_SERVICE_PORT: "5000"
+  RBAC_SERVICE: rbac-management
+  RBAC_SERVICE_PORT: "5010"
+  UNDERSCORE_DB: _db

@@ -1,0 +1,29 @@
+apiVersion: v2
+name: sacheduler-chart
+description: Sacheduler Helm chart to manage configurations.
+version: 0.0.1
+
+dependencies:
+  - name: configmap
+    version: 0.0.1
+    repository: "file://charts/configmap"
+  
+  - name: secrets
+    version: 0.0.1
+    repository: "file://charts/secrets"
+
+  - name: mongodb
+    version: 0.0.1
+    repository: "file://charts/mongodb"
+
+  - name: user-management
+    version: 0.0.1
+    repository: "file://charts/user-management"
+  
+  - name: rbac-management
+    version: 0.0.1
+    repository: "file://charts/rbac-management"
+
+  - name: api-gateway
+    version: 0.0.1
+    repository: "file://charts/api-gateway"

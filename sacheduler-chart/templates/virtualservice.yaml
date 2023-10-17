@@ -1,0 +1,29 @@
+{{- define "sacheduler.virtualservice" -}}
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: default
+  namespace: gloo-system
+spec:
+  virtualHost:
+    domains:
+    - '*'
+    routes:
+    {{- with .Values.apiGatewayRoutes }}
+    {{- range $index, $route := . }}
+    - matchers:
+      - prefix: {{ $route.prefix }}
+      options:
+        prefixRewrite: {{ default $route.prefix $route.prefixRewrite }}
+        retries:
+          retryOn: 'connect-failure,5xx'
+          numRetries: 5
+          perTryTimeout: 15s
+      routeAction:
+        single:
+          upstream:
+            name: {{ default "default-api-gateway-5050" $route.backendServiceName }}
+            namespace: {{ default "gloo-system" $route.backendServiceNamespace }}
+    {{- end }}
+    {{- end }}
+{{- end }}

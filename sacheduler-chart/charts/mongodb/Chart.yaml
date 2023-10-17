@@ -1,0 +1,13 @@
+apiVersion: v2
+name: mongodb
+description: A Helm chart for MongoDB
+version: 0.0.1
+appVersion: 0.0.1
+
+dependencies:
+  - name: configmap
+    version: "0.0.1"
+    repository: "file://../configmap"
+  - name: secrets
+    version: "0.0.1"
+    repository: "file://../secrets"

@@ -1,0 +1,67 @@
+# Rbac Management Deployment configuration
+appName: rbac-management
+replicas: 2
+image: gcr.io/bold-flash-400821/rbac-management-0e328cb3@sha256:f3d3397e9ae349730f91df9e7d3d50f41f2b277b9b50204b7552fe87e088233d
+imagePullPolicy: Always
+containerPort: 5010
+
+volumeMounts:
+  - name: sacheduler-config-map
+    mountPath: /etc/sacheduler-config-map
+
+# Resource requests and limits
+resources:
+  requests:
+    memory: "64Mi"
+    cpu: "250m"
+  limits:
+    memory: "128Mi"
+    cpu: "500m"
+
+# Environment variables from ConfigMap
+envFrom:
+  - configMapRef:
+      name: sacheduler-config-map
+
+# Environment variables from Secrets
+env:
+  - name: GOOGLE_CLIENT_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: placeholder
+        key: GOOGLE_CLIENT_SECRET
+  - name: GOOGLE_CLIENT_ID
+    valueFrom:
+      secretKeyRef:
+        name: placeholder
+        key: GOOGLE_CLIENT_ID
+  - name: JWT_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: placeholder
+        key: JWT_SECRET
+  - name: SESSION_SECRET_KEY
+    valueFrom:
+      secretKeyRef:
+        name: placeholder
+        key: SESSION_SECRET_KEY
+
+# Pod Anti-Affinity
+podAntiAffinity: true
+
+volumes:
+  - name: sacheduler-config-map
+    configMap:
+      name: sacheduler-config-map
+
+# Rbac Management Service configuration
+app:
+  name: rbac-management
+
+service:
+  name: rbac-management
+  namespace: default
+  protocol: TCP
+  port: 5010
+  targetPort: 5010
+  type: ClusterIP

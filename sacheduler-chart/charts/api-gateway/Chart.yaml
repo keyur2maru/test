@@ -1,0 +1,22 @@
+apiVersion: v2
+name: api-gateway
+description: A Helm chart for API Gateway Microservice
+version: 0.0.1
+appVersion: 0.0.1
+
+dependencies:
+  - name: configmap
+    version: "0.0.1"
+    repository: "file://../configmap"
+  - name: secrets
+    version: "0.0.1"
+    repository: "file://../secrets"
+  - name: mongodb
+    version: "0.0.1"
+    repository: "file://../mongodb"
+  - name: user-management
+    version: "0.0.1"
+    repository: "file://../user-management"
+  - name: rbac-management
+    version: "0.0.1"
+    repository: "file://../rbac-management"

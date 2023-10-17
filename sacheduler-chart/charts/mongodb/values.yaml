@@ -1,0 +1,50 @@
+# MongoDB Persistence Configuration
+mongodb:
+  pvcSize: 1Gi
+metadata:
+  appName: mongodb-data-pvc
+
+# MongoDB Deployment Configuration
+appName: mongodb
+replicas: 1
+image: mongo:latest
+imagePullPolicy: IfNotPresent
+containerPort: 27017
+
+volumeMounts:
+  - name: sacheduler-config-map
+    mountPath: /etc/sacheduler-config-map
+  - name: mongodb-data-pvc
+    mountPath: /data/db
+
+# Environment Variables (can be empty or have multiple)
+env: []
+
+# Resource Requests and Limits
+resources:
+  requests:
+    memory: "64Mi"
+    cpu: "250m"
+  limits:
+    memory: "128Mi"
+    cpu: "500m"
+
+# Enable Pod Anti-Affinity
+podAntiAffinity: true
+
+volumes:
+  - name: sacheduler-config-map
+    configMap:
+      name: sacheduler-config-map
+  - name: mongodb-data-pvc
+    persistentVolumeClaim:
+      claimName: mongodb-data-pvc
+
+# MongoDB Service Configuration
+service:
+  name: mongodb
+  namespace: default
+  protocol: TCP
+  port: 27017
+  targetPort: 27017
+  type: ClusterIP

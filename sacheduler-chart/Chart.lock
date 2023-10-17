@@ -1,0 +1,21 @@
+dependencies:
+- name: configmap
+  repository: file://charts/configmap
+  version: 0.0.1
+- name: secrets
+  repository: file://charts/secrets
+  version: 0.0.1
+- name: mongodb
+  repository: file://charts/mongodb
+  version: 0.0.1
+- name: user-management
+  repository: file://charts/user-management
+  version: 0.0.1
+- name: rbac-management
+  repository: file://charts/rbac-management
+  version: 0.0.1
+- name: api-gateway
+  repository: file://charts/api-gateway
+  version: 0.0.1
+digest: sha256:6f22f3c294acc6346326c9f11905f857a8570ac1321e79b1c197e665d2d6301a
+generated: "2023-10-14T03:19:14.411605-07:00"

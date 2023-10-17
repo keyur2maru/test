@@ -1,0 +1,12 @@
+{{- define "sacheduler.pvc" -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.metadata.appName }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.mongodb.pvcSize }}
+{{- end -}}
