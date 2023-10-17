@@ -48,7 +48,11 @@ jobs:
       - name: Configure Docker to use GCR
         run: |
           gcloud auth configure-docker gcr.io
-  
+
+      - name: Configure Docker to use Artifact Registry
+        run: |
+          gcloud auth configure-docker us-west4-docker.pkg.dev    
+
       - name: Install Helm
         run: |
           curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
