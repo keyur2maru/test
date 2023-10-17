@@ -57,6 +57,7 @@ jobs:
           helm dependency update sacheduler-chart/
           helm dependency build sacheduler-chart/
           helm package sacheduler-chart/
+          helm push sacheduler-chart-0.0.1.tgz oci://us-west4-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/sacheduler-chart
 
         env:
           CLOUDSDK_CORE_DISABLE_PROMPTS: 1
