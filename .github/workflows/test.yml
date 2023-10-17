@@ -44,36 +44,17 @@ jobs:
         run: |
           gcloud components install gke-gcloud-auth-plugin
 
-      - name: Extract branch name
-        run: echo "SHORT_SHA=$(echo ${{ github.sha }} | head -c 8)" >> $GITHUB_ENV
-
-      - name: Validate Dockerfile
-        env: 
-          IMAGE: "${{ env.SERVICE_NAME }}-${{ env.SHORT_SHA }}:${{ env.VERSION }}"
-        run: |
-          docker build -f Dockerfile -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.IMAGE }} .
-          echo gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.IMAGE }}
           
       - name: Configure Docker to use GCR
         run: |
           gcloud auth configure-docker gcr.io
   
-      - name: Push Docker Image to GCR
-        env: 
-          IMAGE: "${{ env.SERVICE_NAME }}-${{ env.SHORT_SHA }}:${{ env.VERSION }}"
+      - name: Install Helm
         run: |
-          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.IMAGE }}
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          ./get_helm.sh
 
-        
-      - name: Get Image Digest
-        id: get_digest
-        run: |
-          DIGEST=$(gcloud container images list-tags gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}-${{env.SHORT_SHA}})
-          echo Digest 1 $DIGEST
-          DIGEST2=$(gcloud container images list-tags gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}-${{env.SHORT_SHA}} --filter="tags=0.0.1" --format='get(digest)')
-          echo Digest 2 $DIGEST2
-          echo "::set-output name=digest::$DIGEST2"
-  
         env:
           CLOUDSDK_CORE_DISABLE_PROMPTS: 1
           IMAGE: "${{ env.SERVICE_NAME }}-${{ env.SHORT_SHA }}:${{ env.VERSION }}"
