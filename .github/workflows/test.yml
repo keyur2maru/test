@@ -53,6 +53,11 @@ jobs:
         run: |
           gcloud auth configure-docker us-west4-docker.pkg.dev    
 
+          # Check if the repository exists; create if it doesn't
+          if ! gcloud artifacts repositories describe sacheduler --project="${{ secrets.GCP_PROJECT_ID }}" --location=us-west4 &>/dev/null; then
+            gcloud artifacts repositories create sacheduler --repository-format=Docker --location=us-west4 --project="${{ secrets.GCP_PROJECT_ID }}"
+          fi
+
       - name: Install Helm
         run: |
           curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
@@ -61,7 +66,7 @@ jobs:
           helm dependency update sacheduler-chart/
           helm dependency build sacheduler-chart/
           helm package sacheduler-chart/
-          helm push sacheduler-chart-0.0.1.tgz oci://us-west4-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/sacheduler-chart
+          helm push sacheduler-chart-0.0.1.tgz oci://us-west4-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/sacheduler
 
         env:
           CLOUDSDK_CORE_DISABLE_PROMPTS: 1
