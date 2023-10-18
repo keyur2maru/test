@@ -44,11 +44,6 @@ jobs:
         run: |
           gcloud components install gke-gcloud-auth-plugin
 
-          
-      - name: Configure Docker to use GCR
-        run: |
-          gcloud auth configure-docker gcr.io
-
       - name: Configure Docker to use Artifact Registry
         run: |
           gcloud auth configure-docker us-west4-docker.pkg.dev    
