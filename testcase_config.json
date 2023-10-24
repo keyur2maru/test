@@ -1,0 +1,472 @@
+{
+    "testconfigs": [
+        {
+            "test": "InstallApp",
+            "input": {
+                "package_name": "<INSERT_HERE>",
+                "build_number": "<INSERT_HERE>"
+            }
+        },
+        {
+            "test": "UninstallApp",
+            "input": {
+                "package_name": "<INSERT_HERE>"
+            }
+        },
+        {
+            "test": "SetKioskMode",
+            "input": {
+                "package_name": "<INSERT_HERE>",
+                "build_number": "<INSERT_HERE>"
+            }
+        },
+        {
+            "test": "SetMultiAppMode",
+            "input": {
+                "package_name": "<INSERT_HERE>",
+                "build_number": "<INSERT_HERE>"
+            }
+        },
+        {
+            "test": "UpdateSoundSettings",
+            "input": {
+                "volumeLevel": 100
+            }
+        },
+        {
+            "test": "BrightnessPolicy",
+            "input": {
+                "brightnessLevel": 100
+            }
+        },
+        {
+            "test": "SetTimezone",
+            "input": {
+                "timezone": "America/Chicago"
+            }
+        },
+        {
+            "test": "UpdateApp",
+            "input": {
+                "package_name": "<INSERT_HERE>",
+                "low_version_code": "<INSERT_HERE>",
+                "update_version_code": "<INSERT_HERE>"
+            }
+        },
+        {
+            "test": "ScheduleInstallDevice",
+            "input": {
+                "package_name": "<INSERT_HERE>",
+                "build_number": "<INSERT_HERE>"
+            }
+        },
+        {
+            "test": "ScheduleInstallConsole",
+            "input": {
+                "package_name": "<INSERT_HERE>",
+                "build_number": "<INSERT_HERE>"
+            }
+        },
+        {
+            "test": "ScheduleUninstallDevice",
+            "input": {
+                "package_name": "<INSERT_HERE>"
+            }
+        },
+        {
+            "test": "ScheduleUninstallConsole",
+            "input": {
+                "package_name": "<INSERT_HERE>"
+            }
+        },
+        {
+            "test": "SendMessage",
+            "input": {
+                "title": "Automation Test",
+                "message": "Hello Andi, your test is successfull"
+            }
+        },
+        {
+            "test": "EditUpdateBlueprint_InstallApp",
+            "input": {
+                "group_id": "<INSERT_HERE>",
+                "edit_input": {
+                    "latest_revision": {
+                        "application": {
+                            "apps": [
+                                {
+                                    "package_name": "<INSERT_HERE>",
+                                    "version_codes": [
+                                        "<INSERT_HERE>"
+                                    ],
+                                    "state": "SHOW"
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "test": "EditUpdateBlueprint_KioskMode",
+            "input": {
+                "group_id": "<INSERT_HERE>",
+                "edit_input": {
+                    "latest_revision": {
+                        "application": {
+                            "app_mode": "KIOSK",
+                            "apps": [
+                                {
+                                    "package_name": "<INSERT_HERE>",
+                                    "version_codes": [
+                                        "<INSERT_HERE>"
+                                    ],
+                                    "state": "SHOW"
+                                }
+                            ],
+                            "start_on_boot": "<INSERT_HERE>"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "test": "EditUpdateBlueprint_UpgradeApp",
+            "input": {
+                "group_id": "<INSERT_HERE>",
+                "edit_input": {
+                    "latest_revision": {
+                        "application": {
+                            "apps": [
+                                {
+                                    "package_name": "<INSERT_HERE>",
+                                    "version_codes": [
+                                        "<INSERT_HERE>"
+                                    ],
+                                    "state": "SHOW"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "update_app": {
+                    "latest_revision": {
+                        "application": {
+                            "apps": [
+                                {
+                                    "package_name": "<INSERT_HERE>",
+                                    "version_codes": [
+                                        "<INSERT_HERE>"
+                                    ],
+                                    "state": "SHOW"
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "test": "EditUpdateBlueprint_DowngradeApp",
+            "input": {
+                "group_id": "<INSERT_HERE>",
+                "edit_input": {
+                    "latest_revision": {
+                        "application": {
+                            "apps": [
+                                {
+                                    "package_name": "<INSERT_HERE>",
+                                    "version_codes": [
+                                        "<INSERT_HERE>"
+                                    ],
+                                    "state": "SHOW"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "update_app": {
+                    "latest_revision": {
+                        "application": {
+                            "apps": [
+                                {
+                                    "package_name": "<INSERT_HERE>",
+                                    "version_codes": [
+                                        "<INSERT_HERE>"
+                                    ],
+                                    "state": "SHOW"
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "test": "LockDownDevice",
+            "input": {
+                "lockdown_msg": "TEST Lockdown"
+            }
+        },
+        {
+            "test": "DpcParamRenameEsperSettings",
+            "input": {
+                "title": "TEST Settings",
+                "pin": "1234"
+            }
+        },
+        {
+            "test": "DpcParamNavBar",
+            "input": {
+                "package_name": "<INSERT_HERE>",
+                "build_number": "<INSERT_HERE>"
+            }
+        },
+        {
+            "test": "ApplyAndroidSettingViaJson",
+            "input": {
+                "settings": {
+                    "global": [
+                        {
+                            "key": "data_roaming",
+                            "value": "1"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "test": "AddWifiAp",
+            "input": {
+                "wifi_access_points": [
+                    {
+                        "wifi_ssid": "Test",
+                        "wifi_password": "adskl;asd",
+                        "wifi_security_type": "WPA2",
+                        "wifi_phase2_auth": "NONE",
+                        "hidden": false
+                    },
+                    {
+                        "wifi_ssid":"test3",
+                        "wifi_password":"asdfghjkl",
+                        "wifi_security_type":"EAP",
+                        "wifi_phase2_auth":"MSCHAPV2",
+                        "wifi_eap_method":"PEAP",
+                        "identity":"test",
+                        "anonymous_identity":"test",
+                        "hidden":false
+                    }
+                ]
+            }
+        },
+        {
+            "test": "RemoveWifiAp",
+            "input": {
+                "wifi_access_points": [
+                    {
+                        "wifi_ssid": "Test",
+                        "wifi_password": "adskl;asd",
+                        "wifi_security_type": "WPA2",
+                        "wifi_phase2_auth": "NONE",
+                        "hidden": false
+                    },
+                    {
+                        "wifi_ssid":"test3",
+                        "wifi_password":"asdfghjkl",
+                        "wifi_security_type":"EAP",
+                        "wifi_phase2_auth":"MSCHAPV2",
+                        "wifi_eap_method":"PEAP",
+                        "identity":"test",
+                        "anonymous_identity":"test",
+                        "hidden":false
+                    }
+                ]
+            }
+        },
+        {
+            "test": "Edit_Compliance_Policy",
+            "input": {
+                "edit_input": {
+                    "policy": {
+                        "smsDisabled": "<INSERT_HERE>",
+                        "enableAndroidSettingsApp": "<INSERT_HERE>"
+                    },
+                    "name": "<INSERT_HERE>",
+                    "description": "<INSERT_HERE>"
+                }
+            }
+        },
+        {
+            "test": "BPv2EditBPAndConverge_InstallApp",
+            "input": {
+                "edit_input": {
+                    "name": "Medicare Google Play",
+                    "comments": "automated InstallApp blueprint",
+                    "apps": [
+                        {
+                            "package_name": "com.esper.Test",
+                            "version_codes": [
+                                "7.0"
+                            ],
+                            "state": "SHOW"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "test": "BPv2EditBPAndConverge_UpgradeApp",
+            "input": {
+                "edit_input": {
+                    "name": "Medicare Google Play",
+                    "device_mode_settings": {
+                        "apply_policy": "ALWAYS APPLY",
+                        "device_mode": "MULTI APP"
+                    },
+                    "apps": [
+                        {
+                            "package_name": "com.esper.Test",
+                            "version_codes": [
+                                "1.0"
+                            ],
+                            "state": "SHOW"
+                        }
+                    ]
+                },
+                "update_input": {
+                    "comments": "automated UpgradeApp blueprint",
+                    "apps": [
+                        {
+                            "package_name": "com.esper.Test",
+                            "version_codes": [
+                                "7.0"
+                            ],
+                            "state": "SHOW"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "test": "BPv2EditBPAndConverge_DowngradeApp",
+            "input": {
+                "edit_input": {
+                    "name": "Medicare Google Play",
+                    "device_mode_settings": {
+                        "apply_policy": "ALWAYS APPLY",
+                        "device_mode": "MULTI APP"
+                    },
+                    "apps": [
+                        {
+                            "package_name": "com.esper.Test",
+                            "version_codes": [
+                                "7.0"
+                            ],
+                            "state": "SHOW"
+                        }
+                    ]
+                },
+                "downgrade_input": {
+                    "comments": "automated DowngradeApp blueprint",
+                    "apps": [
+                        {
+                            "package_name": "com.esper.Test",
+                            "version_codes": [
+                                "1.0"
+                            ],
+                            "state": "SHOW"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "test": "BPv2EditBPAndConverge_Kioskmode",
+            "input": {
+                "edit_input": {
+                    "name": "<INSERT HERE>",
+                    "comments": "automated KioskApp blueprint",
+                    "device_mode_settings": {
+                        "apply_policy": "ALWAYS APPLY",
+                        "device_mode": "KIOSK"
+                    },
+                    "launch_on_start": "com.esper.Test",
+                    "apps": [
+                        {
+                            "package_name": "com.esper.Test",
+                            "version_codes": [
+                                "7.0"
+                            ],
+                            "state": "SHOW"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "test": "EditBPv2_Kiosk_DowngradeApp",
+            "input": {
+                "edit_input": {
+                    "name": "Medicare Google Play",
+                    "device_mode_settings": {
+                        "apply_policy": "ALWAYS APPLY",
+                        "device_mode": "MULTI APP"
+                    },
+                    "apps": [
+                        {
+                            "package_name": "com.esper.Test",
+                            "version_codes": [
+                                "7.0"
+                            ],
+                            "state": "SHOW"
+                        }
+                    ]
+                },
+                "custom_input": {
+                    "comments": "automated Kiosk_DowngradeApp blueprint",
+                    "device_mode_settings": {
+                        "apply_policy": "ALWAYS APPLY",
+                        "device_mode": "KIOSK"
+                    },
+                    "launch_on_start": "com.esper.Test",
+                    "apps": [
+                        {
+                            "package_name": "com.esper.Test",
+                            "version_codes": [
+                                "1.0"
+                            ],
+                            "state": "SHOW"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "test": "BPv2SoundSettings",
+            "input": {
+                "edit_input": {
+                    "name": "Medicare Google Play",
+                    "comments": "automated Soundsettings blueprint",
+                    "sound_settings": {
+                        "alarm_settings": {
+                            "apply_policy": "ALWAYS APPLY",
+                            "alarm_volume": 100
+                        },
+                        "music_settings": {
+                            "apply_policy": "ALWAYS APPLY",
+                            "music_volume": 100
+                        },
+                        "ringtone_settings": {
+                            "apply_policy": "ALWAYS APPLY",
+                            "ringtone_volume": 100
+                        },
+                        "notification_settings": {
+                            "apply_policy": "ALWAYS APPLY",
+                            "notification_volume": 100
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}
